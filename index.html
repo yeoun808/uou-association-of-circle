@@ -5,52 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>울산대학교 여운 동아리연합회</title>
     <style>
-        /* 기본 배경 설정 */
-        body { 
-            /* 👇 이 부분을 본인 로고 파일 이름으로 맞추세요 */
-            background-image: url('han.png'); 
-            
-            /* 배경 이미지 스타일 설정 (중요!) */
-            background-size: contain;      /* 이미지가 다 보이도록 크기 조절 */
-            background-repeat: no-repeat;  /* 이미지 반복 안 함 */
-            background-position: center;   /* 정중앙 배치 */
-            background-attachment: fixed;  /* 스크롤 해도 배경 고정 (선택 사항) */
-            
-            /* 전체 화면 중앙 정렬 */
-            background-color: #f0f2f5;     /* 이미지 뒤 기본 배경색 */
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box;
+        /* 전체 배경 설정 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Pretendard', sans-serif;
         }
 
-        /* 제목 스타일 */
-        h1 { font-size: 24px; margin-bottom: 40px; color: #333; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .bg-container {
+            /* 1. 배경 이미지 설정 */
+            background-image: url('han.png'); 
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #f0f2f5; /* 로고 뒤 기본 배경색 */
+            
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
 
-        /* 버튼 컨테이너 */
-        .btn-container { width: 100%; max-width: 400px; }
+        /* 2. 반투명 덮개 (Overlay) */
+        .bg-container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.45); /* 흰색 반투명 (0.6이 투명도) */
+            /* 배경을 어둡게 하고 싶으면 rgba(0, 0, 0, 0.4) 정도로 바꾸세요 */
+            z-index: 1;
+        }
 
-        /* 버튼 공통 스타일 (조금 더 투명하게 세련되게 수정) */
+        /* 콘텐츠가 덮개 위에 오도록 설정 */
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 { font-size: 24px; margin-bottom: 40px; color: #222; font-weight: 800; }
+
         .btn { 
             display: block; padding: 20px; margin-bottom: 18px; border-radius: 50px; 
             text-align: center; text-decoration: none; font-weight: bold; font-size: 16px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: all 0.2s; 
-            backdrop-filter: blur(5px); /* 배경 로고가 살짝 비치게 블러 처리 */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.2s;
+            border: none;
         }
-        .btn:active { transform: scale(0.97); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn:active { transform: scale(0.96); }
 
-        /* 버튼 색상 스타일 */
-        .dark-blue { background-color: rgba(52, 73, 94, 0.95); color: white; }
-        .pink { background-color: rgba(233, 30, 99, 0.95); color: white; }
-        .yellow { background-color: rgba(241, 196, 15, 0.95); color: black; }
+        /* 버튼 색상 (약간 더 쨍하게 수정) */
+        .dark-blue { background-color: #34495e; color: white; }
+        .pink { background-color: #e91e63; color: white; }
+        .yellow { background-color: #f1c40f; color: black; }
     </style>
 </head>
 <body>
-    <h1>울산대학교 여운 동아리연합회</h1>
-    <div class="btn-container">
-        <a href="공지사항_링크" class="btn dark-blue">📢 전체 공지사항 확인</a>
-        <a href="인스타_링크" class="btn pink">📸 공식 인스타그램</a>
-        <a href="오픈채팅_링크" class="btn yellow">💬 1:1 오픈채팅 문의</a>
-        <a href="이벤트_링크" class="btn dark-blue">🎁 선착순 이벤트 신청하기</a>
+    <div class="bg-container">
+        <div class="content">
+            <h1>울산대학교 여운 동아리연합회</h1>
+            <div class="btn-container">
+                <a href="#" class="btn dark-blue">📢 전체 공지사항 확인</a>
+                <a href="#" class="btn pink">📸 공식 인스타그램</a>
+                <a href="#" class="btn yellow">💬 1:1 오픈채팅 문의</a>
+                <a href="#" id="event-btn" class="btn dark-blue">🎁 선착순 이벤트 신청하기</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
