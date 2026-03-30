@@ -5,129 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>울산대학교 여운 동아리연합회</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Pretendard', sans-serif; background-color: #f0f2f5; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Pretendard', sans-serif; }
         
         .bg-container {
-            background-image: url('logo.png'); 
-            background-size: contain; background-repeat: no-repeat; background-position: center;
-            min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative;
+            /* 👇 깃허브에 올린 로고 파일명이 정확히 logo.png인지 확인 필수! */
+            background-image: url('han.png'); 
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center;
+            background-color: #f8f9fa; /* 로고 안 나올 때 대비한 배경색 */
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative;
         }
+
+        /* 배경 반투명 처리 */
         .bg-container::before {
             content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.65); z-index: 1;
+            background-color: rgba(255, 255, 255, 0.7); z-index: 1;
         }
 
-        .content-wrapper { position: relative; z-index: 2; width: 100%; max-width: 420px; padding: 20px; box-sizing: border-box; }
+        .content {
+            position: relative; z-index: 2;
+            width: 90%; max-width: 400px; /* 요놈이 버튼 길이를 결정합니다 */
+            text-align: center;
+        }
 
-        /* --- 섹션 전환 관리 --- */
-        #main-menu { display: block; text-align: center; }
-        #event-page { display: none; animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        h1 { font-size: 24px; margin-bottom: 40px; color: #222; font-weight: bold; line-height: 1.4; }
 
-        /* --- 메인 버튼 스타일 --- */
         .btn { 
-            display: block; padding: 20px; margin-bottom: 18px; border-radius: 50px; 
-            text-align: center; text-decoration: none; font-weight: bold; font-size: 16px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: none; cursor: pointer;
+            display: block; 
+            width: 100%; /* 버튼을 부모 너비에 꽉 채웁니다 */
+            padding: 18px 0; 
+            margin-bottom: 15px; 
+            border-radius: 50px; 
+            text-align: center; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 16px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            transition: all 0.2s; 
+            border: none; 
+            cursor: pointer;
+            box-sizing: border-box; /* 패딩 때문에 버튼 삐져나가는거 방지 */
         }
+        .btn:active { transform: scale(0.97); }
+
+        /* 색상 코드 */
         .dark-blue { background-color: #34495e; color: white; }
         .pink { background-color: #e91e63; color: white; }
         .yellow { background-color: #f1c40f; color: black; }
 
-        /* --- 선착순 폼 디자인 (이미지 스타일 적용) --- */
-        .event-card { background: #f8f9fa; padding: 25px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .event-title { font-size: 20px; font-weight: bold; color: #1a2a3a; margin-bottom: 20px; text-align: left; }
-
-        /* 상단 현황판 */
-        .status-board { background: white; border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
-        .status-header { font-size: 13px; color: #666; margin-bottom: 10px; display: flex; align-items: center; }
-        .status-grid { display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center; text-align: center; }
-        .status-item span { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
-        .status-item b { font-size: 18px; }
-        .count-win { color: #2ecc71; } /* 당첨 숫자 초록색 */
-        .count-wait { color: #e67e22; } /* 예비 숫자 주황색 */
-        .divider { height: 30px; background-color: #eee; }
-
-        /* 입력창 스타일 */
-        .input-box {
-            width: 100%; padding: 15px 20px; margin-bottom: 12px; border-radius: 15px;
-            border: 1px solid #e0e4e8; background: white; font-size: 15px; box-sizing: border-box; outline: none;
-        }
-        .input-box::placeholder { color: #adb5bd; }
-        .input-box:focus { border-color: #34495e; box-shadow: 0 0 0 3px rgba(52, 73, 94, 0.1); }
-
-        /* 신청 버튼 */
-        .submit-btn {
-            width: 100%; padding: 18px; background: #34495e; color: white; border: none;
-            border-radius: 15px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 5px;
-        }
-        .back-link { 
-            display: inline-block; margin-top: 20px; color: #888; text-decoration: none; font-size: 14px; 
-            cursor: pointer; background: none; border: none;
-        }
+        /* --- 섹션 전환 --- */
+        #event-page { display: none; }
     </style>
 </head>
 <body>
     <div class="bg-container">
-        <div class="content-wrapper">
-            
-            <div id="main-menu">
-                <h1 style="margin-bottom:40px;">울산대학교 여운 동아리연합회</h1>
-                <a href="#" class="btn dark-blue">📢 전체 공지사항 확인</a>
-                <a href="#" class="btn pink">📸 공식 인스타그램</a>
-                <a href="#" class="btn yellow">💬 1:1 오픈채팅 문의</a>
-                <button onclick="showEventPage()" class="btn dark-blue">🎁 선착순 이벤트 신청하기</button>
-            </div>
+        <div id="main-menu" class="content">
+            <h1>울산대학교 여운<br>동아리연합회</h1>
+            <a href="#" class="btn dark-blue">📢 전체 공지사항 확인</a>
+            <a href="#" class="btn pink">📸 공식 인스타그램</a>
+            <a href="#" class="btn yellow">💬 1:1 오픈채팅 문의</a>
+            <button onclick="showEvent()" class="btn dark-blue">🎁 선착순 이벤트 신청하기</button>
+        </div>
 
-            <div id="event-page">
-                <div class="event-card">
-                    <div class="event-title">선착순 이벤트</div>
-                    
-                    <div class="status-board">
-                        <div class="status-header">📢 총 신청 가능 인원: <b>2명</b></div>
-                        <div class="status-grid">
-                            <div class="status-item">
-                                <span>당첨</span>
-                                <b class="count-win">2</b>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="status-item">
-                                <span style="background:#3f51b5; color:white; border-radius:3px; display:inline-block; padding:0 4px; margin-bottom:5px;">예비</span>
-                                <b class="count-wait">2</b>
-                            </div>
-                        </div>
-                    </div>
-
-                    <input type="text" id="club-name" class="input-box" placeholder="소속 중앙동아리명">
-                    <input type="number" id="stu-id" class="input-box" placeholder="학번 8자리">
-                    <input type="text" id="user-name" class="input-box" placeholder="성명">
-
-                    <button class="submit-btn" onclick="requestSubmit()">신청하기</button>
-                </div>
-                <button class="back-link" onclick="showMainMenu()">⬅ 돌아가기</button>
-            </div>
-
+        <div id="event-page" class="content">
+            <h2 style="margin-bottom:30px;">준비 중...</h2>
+            <button onclick="showMain()" class="btn">← 돌아가기</button>
         </div>
     </div>
 
     <script>
-        function showEventPage() {
+        function showEvent() {
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('event-page').style.display = 'block';
         }
-        function showMainMenu() {
+        function showMain() {
             document.getElementById('event-page').style.display = 'none';
             document.getElementById('main-menu').style.display = 'block';
-        }
-
-        function requestSubmit() {
-            const club = document.getElementById('club-name').value;
-            const id = document.getElementById('stu-id').value;
-            const name = document.getElementById('user-name').value;
-
-            if(!club || !id || !name) return alert("모든 항목을 입력해주세요.");
-            
-            alert(`[신청 정보]\n동아리: ${club}\n학번: ${id}\n이름: ${name}\n\n서버로 전송합니다!`);
         }
     </script>
 </body>
