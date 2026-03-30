@@ -5,23 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>울산대학교 여운 동아리연합회</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Pretendard', sans-serif; background-color: #f8f9fa; }
+        /* 기본 설정 */
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Pretendard', sans-serif; background-color: #f8f9fa; overflow-x: hidden; }
         
+        /* 배경 설정 (로고 + 반투명 덮개) */
         .bg-container {
-            /* han.png 파일이 깃허브 최상단에 있어야 함 */
             background-image: url('han.png'); 
-            background-size: contain; background-repeat: no-repeat; background-position: center;
-            min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative;
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center;
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative;
         }
-        /* 배경 반투명 처리 */
         .bg-container::before {
             content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background-color: rgba(255, 255, 255, 0.7); z-index: 1;
         }
 
+        /* 콘텐츠 전체 너비 제한 */
         .content-wrapper { position: relative; z-index: 2; width: 90%; max-width: 400px; padding: 20px; box-sizing: border-box; }
 
-        /* --- 공통 버튼 스타일 (전체 너비 꽉 채움) --- */
+        /* --- 공통 버튼 스타일 (100% 너비) --- */
         .btn { 
             display: block; width: 100%; padding: 18px 0; margin-bottom: 15px; border-radius: 50px; 
             text-align: center; text-decoration: none; font-weight: bold; font-size: 16px; 
@@ -32,54 +39,56 @@
         .pink { background-color: #e91e63; color: white; }
         .yellow { background-color: #f1c40f; color: black; }
 
-        /* --- 섹션 전환 제어 --- */
+        /* --- 섹션 전환 애니메이션 --- */
         #main-menu { display: block; text-align: center; }
-        #event-page { display: none; animation: fadeIn 0.3s ease-out; }
+        #event-page { display: none; animation: fadeIn 0.4s ease-out; text-align: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 선착순 이벤트 카드 (이미지 스타일) --- */
+        /* --- [큰 카드] 선착순 이벤트 박스 (반투명) --- */
         .event-card { 
-            /* 👇 1. 흰색 카드 부분 반투명하게 수정 (0.8이 투명도) */
-            background: rgba(255, 255, 255, 0.3); 
+            background: rgba(255, 255, 255, 0.12); /* 전체 카드 투명도 0.1에 가까울수록 투명해짐*/
             padding: 25px; 
             border-radius: 25px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            backdrop-filter: blur(5px); /* 배경 로고가 살짝 비치게 블러 처리 */
-            text-align: center; /* 자식 요소들 중앙 정렬 */
+            backdrop-filter: blur(10px); /* 배경 블러 효과 */
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        /* 👇 2. 선착순 이벤트 제목 중앙 정렬 */
-        .event-title { font-size: 22px; font-weight: bold; color: #1a2a3a; margin-bottom: 20px; text-align: center; display: block; }
+        .event-title { font-size: 22px; font-weight: bold; color: #1a2a3a; margin-bottom: 20px; display: block; }
 
-        /* 상단 현황판 (완벽 대칭) */
-        .status-board { background: white; border-radius: 18px; padding: 20px; margin-bottom: 25px; }
-        /* 👇 3. 항목 글씨 잘 보이게 색상 강화 */
-        .status-header { font-size: 14px; color: #222; margin-bottom: 15px; text-align: center; display: block; font-weight: bold; }
-        .status-grid { display: flex; align-items: center; justify-content: space-around; text-align: center; }
+        /* --- [작은 카드] 실시간 현황판 (반투명) --- */
+        .status-board { 
+            background: rgba(255, 255, 255, 0.12); /* 현황판 투명도 */
+            border-radius: 18px; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .status-header { font-size: 14px; color: #111; margin-bottom: 15px; font-weight: 800; display: block; }
+        
+        /* 대칭 그리드 설정 */
+        .status-grid { display: flex; align-items: center; justify-content: space-around; }
         .status-item { flex: 1; }
-        
-        /* 👇 4. 당첨/예비 항목 글씨 잘 보이게 색상 강화 및 폰트 크기 조정 */
-        .status-item span { display: block; font-size: 14px; color: #444; margin-bottom: 10px; font-weight: 900; }
-        
-        /* 👇 5. 파이썬 연동용 ID 부여 (realtime-win-count, realtime-wait-count) */
+        .status-item span { display: block; font-size: 14px; color: #222; margin-bottom: 10px; font-weight: 900; }
         .status-item b { font-size: 24px; font-weight: bold; display: block; }
+        
+        /* 숫자 강조 색상 */
         .count-win { color: #2ecc71; } 
         .count-wait { color: #e67e22; }
-        .divider { width: 1px; height: 40px; background-color: #eee; }
+        .divider { width: 1px; height: 40px; background-color: rgba(0,0,0,0.1); }
 
-        /* 입력창 디자인 */
+        /* --- 입력창 디자인 --- */
         .input-box {
             width: 100%; padding: 16px 20px; margin-bottom: 12px; border-radius: 15px;
-            border: 1px solid #e0e4e8; background: white; font-size: 15px; box-sizing: border-box; outline: none;
+            border: 1px solid rgba(0,0,0,0.1); background: rgba(255, 255, 255, 0.8); 
+            font-size: 15px; box-sizing: border-box; outline: none; transition: 0.2s;
         }
-        /* 👇 6. 입력창 글씨 잘 보이게 설정 */
-        .input-box::placeholder { color: #adb5bd; }
-        .input-box:focus { border-color: #34495e; color: #111; }
+        .input-box:focus { border-color: #34495e; background: white; }
 
         .submit-btn {
             width: 100%; padding: 18px; background: #34495e; color: white; border: none;
             border-radius: 15px; font-weight: bold; font-size: 17px; cursor: pointer; margin-top: 5px;
         }
-        .back-link { display: inline-block; margin-top: 20px; color: #888; text-decoration: none; font-size: 14px; border: none; background: none; cursor: pointer; }
+        .back-link { display: inline-block; margin-top: 20px; color: #666; text-decoration: none; font-size: 14px; border: none; background: none; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -96,7 +105,7 @@
 
             <div id="event-page">
                 <div class="event-card">
-                    <div class="event-title">선착순 이벤트</div>
+                    <span class="event-title">선착순 이벤트</span>
                     
                     <div class="status-board">
                         <span class="status-header">📢 총 신청 가능 인원: <b>2명</b></span>
@@ -107,7 +116,7 @@
                             </div>
                             <div class="divider"></div>
                             <div class="status-item">
-                                <span style="background:#e8eaf6; color:#3f51b5; padding:2px 6px; border-radius:4px; display:inline-block; font-weight:bold;">예비</span>
+                                <span style="background:rgba(63, 81, 181, 0.1); color:#3f51b5; padding:2px 8px; border-radius:4px; display:inline-block;">예비</span>
                                 <b class="count-wait" id="realtime-wait-count">2</b>
                             </div>
                         </div>
@@ -126,6 +135,7 @@
     </div>
 
     <script>
+        // 페이지 전환 함수
         function showEvent() {
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('event-page').style.display = 'block';
@@ -134,23 +144,25 @@
             document.getElementById('event-page').style.display = 'none';
             document.getElementById('main-menu').style.display = 'block';
         }
+
+        // 신청하기 버튼 클릭 시 작동 (나중에 파이썬 연결)
         function processEntry() {
             const club = document.getElementById('club').value;
             const sid = document.getElementById('sid').value;
             const name = document.getElementById('name').value;
-            if(!club || !sid || !name) return alert("빈칸을 모두 채워주세요!");
             
-            // 나중에 파이썬 API로 데이터를 전송하는 로직이 들어갑니다.
-            alert("서버로 전송 중... (곧 DB 연동 단계입니다!)");
+            if(!club || !sid || !name) {
+                alert("모든 항목을 정확히 입력해주세요!");
+                return;
+            }
+            
+            alert(`[신청 확인]\n동아리: ${club}\n학번: ${sid}\n성명: ${name}\n\n서버로 전송합니다!`);
         }
 
-        // 👇 나중에 파이썬으로 실시간 인원수를 반영하는 테스트 함수 (지워도 됨)
-        function updateRealtimeCounts(winCount, waitCount) {
-            document.getElementById('realtime-win-count').innerText = winCount;
-            document.getElementById('realtime-wait-count').innerText = waitCount;
-        }
-        // 예시: 10초 뒤에 숫자가 0, 1로 바뀜
-        // setTimeout(() => updateRealtimeCounts(0, 1), 10000);
+        /* [파이썬 실시간 연동 팁]
+           나중에 서버에서 실시간 인원수를 받아오면 아래 함수를 호출하면 됩니다.
+           예: document.getElementById('realtime-win-count').innerText = '1';
+        */
     </script>
 </body>
 </html>
